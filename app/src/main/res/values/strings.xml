@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Yoga</string>
+    <string name="asana_details">Asana Details</string>
+    <string name="sanskrit">Sanskrit</string>
+    <string name="english">English</string>
+    <string name="translation">Translation</string>
+    <string name="description">Description</string>
+    <string name="benefits">Benefits</string>
+</resources>
