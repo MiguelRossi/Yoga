@@ -3,7 +3,6 @@ package com.example.yoga.asanas.ui
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -58,6 +57,7 @@ class AsanaItemTest {
     @Test
     @OptIn(DelicateCoilApi::class)
     fun givenAsana_whenAsanaItemIsDisplayed_thenImageIsLoaded() {
+        var loaded = false
         composeTestRule.setContent {
             val imageLoader = ImageLoader.Builder(context = LocalContext.current)
                 .components { add(coilFakeEngine) }
@@ -65,20 +65,23 @@ class AsanaItemTest {
                     override fun onSuccess(
                         request: ImageRequest,
                         result: SuccessResult
-                    ) = Unit
+                    ) {
+                        loaded = true
+                    }
 
                     override fun onError(
                         request: ImageRequest,
                         result: ErrorResult
                     ) {
-                        throw Exception("Image loading failed")
+                        loaded = false
                     }
                 })
                 .build()
             SingletonImageLoader.setUnsafe(imageLoader)
             AsanaItem(asana = fakeAsana) { _, _ -> }
         }
-        TODO(reason = "this doesn't fail")
+
+        assertTrue(loaded)
     }
 
     @Test

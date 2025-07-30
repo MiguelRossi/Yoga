@@ -18,6 +18,7 @@ import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.test.FakeImageLoaderEngine
 import com.example.yoga.domain.model.Asana
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -71,19 +72,25 @@ class DetailCompactTest {
     @Test
     @OptIn(DelicateCoilApi::class)
     fun givenAsana_whenDetailScreenIsDisplayed_thenImageIsLoaded() {
+        var loaded = false
+
         composeTestRule.setContent {
             val imageLoader = ImageLoader.Builder(context = LocalContext.current)
                 .components { add(coilFakeEngine) }
                 .eventListener(listener = object : EventListener() {
-                    override fun onSuccess(request: ImageRequest, result: SuccessResult) = Unit
+                    override fun onSuccess(request: ImageRequest, result: SuccessResult) {
+                        loaded = true
+                    }
 
                     override fun onError(request: ImageRequest, result: ErrorResult) {
-                        throw Exception("Image loading failed")
+                        loaded = false
                     }
                 })
                 .build()
             SingletonImageLoader.setUnsafe(imageLoader)
             DetailCompact(modifier = Modifier, asana = fakeAsana)
         }
+
+        assertTrue(loaded)
     }
 }

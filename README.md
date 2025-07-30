@@ -38,9 +38,6 @@ The code has been organised following Clean Code, Clean Architecture principles 
 ## Strategy
 This app assumes the endpoint will always return a non-nullable id and it is not handling cases where a field is missing in the UI, only when mapping for avoiding a crash.
 
-## Things to Fix
-- Coil tests throw fake success results so, they have been marked with a TODO()
-
 ## The wishlist
 - Snapshot testing
 
